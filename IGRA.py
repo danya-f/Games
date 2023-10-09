@@ -1,7 +1,7 @@
 from random import randint
 from time import sleep
 stopor = 0
-seci = 0
+seci = 3
 igr = [0]
 diller = [0]
 kom = ''
