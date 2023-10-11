@@ -16,14 +16,11 @@ def dis(a: list = [Fore.RED, Fore.GREEN, Fore.YELLOW, Fore.CYAN, Fore.BLUE, Fore
 
 cveta = [Fore.RED, Fore.GREEN, Fore.YELLOW, Fore.CYAN, Fore.BLUE, Fore.MAGENTA]
 with open('Slova_dlya_Wordle.txt', encoding='utf-8') as s:
-    with open('Vtor_Slovar.txt', encoding='utf-8') as eche:
-        slova = []
-        for i in s.read().split():
-            if i not in slova:
-                slova.append(i)
-        for i in eche.read().split():
-            if i not in slova:
-                slova.append(i)
+    slova = []
+    for i in s.read().split():
+        if i not in slova:
+            slova.append(i)
+    print(len(slova))
     sec = 1
     slovar_RU = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
     dis(cveta)
