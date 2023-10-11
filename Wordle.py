@@ -16,10 +16,15 @@ def dis(a: list = [Fore.RED, Fore.GREEN, Fore.YELLOW, Fore.CYAN, Fore.BLUE, Fore
 
 cveta = [Fore.RED, Fore.GREEN, Fore.YELLOW, Fore.CYAN, Fore.BLUE, Fore.MAGENTA]
 with open('Slova_dlya_Wordle.txt', encoding='utf-8') as s:
-    slova = []
-    for i in s.read().split():
-        slova.append(i)
-    sec = 0
+    with open('Vtor_Slovar.txt', encoding='utf-8') as eche:
+        slova = []
+        for i in s.read().split():
+            if i not in slova:
+                slova.append(i)
+        for i in eche.read().split():
+            if i not in slova:
+                slova.append(i)
+    sec = 1
     slovar_RU = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
     dis(cveta)
     print()
@@ -40,11 +45,12 @@ with open('Slova_dlya_Wordle.txt', encoding='utf-8') as s:
 светит вам :''')
     print()
     sleep(sec)
-    print(Back.BLUE+Fore.BLACK + '1)синим цветом буквы , которые есть в загаданном слове , но которые стоят на другом месте')
+    print(
+        Back.BLUE + Fore.BLACK + '1)СИНИМ цветом ,буквы , которые есть в загаданном слове , но они стоят на другом месте')
     sleep(sec)
-    print(Back.YELLOW+Fore.BLACK +'2)желтым буква которая есть в слове и вы угадали на каком месте она стоит')
+    print(Back.YELLOW + Fore.BLACK + '2)ЖЁЛТЫМ, буквы которые есть в слове и вы угадали на каком месте они стоят')
     sleep(sec)
-    print(Back.LIGHTBLACK_EX+Fore.BLACK + '3)серым цветом , если этой буквы нет в загаданном слове')
+    print(Back.LIGHTBLACK_EX + Fore.BLACK + '3)СЕРЫМ цветом , если этой буквы нет в загаданном слове')
     sleep(sec)
     print()
     dis(cveta)
@@ -59,8 +65,7 @@ with open('Slova_dlya_Wordle.txt', encoding='utf-8') as s:
     print()
     dis(cveta)
     input()
-    # zagadanoe = slova[randint(0,len(slova))]
-    zagadanoe = 'аббат'
+    zagadanoe = slova[randint(0,len(slova))]
     bukvi_zagad = {}
 
     vivod_zagad = [[], [], [], [], []]
@@ -95,8 +100,15 @@ with open('Slova_dlya_Wordle.txt', encoding='utf-8') as s:
             print()
             dis(cveta)
         print(Fore.BLUE + 'Введите слово :')
-        vvedenoe_slovo = list(input())
-
+        vvedenoe_slovo = list(input().lower())
+        if len(''.join(vvedenoe_slovo)) < 5:
+            print(Fore.RED + '         Слишком короткое слово , ты что забыл что длина должна быть 5 букв ???????')
+            print()
+            sleep(sec)
+            continue
+        for j in range(len(vvedenoe_slovo)):
+            if vvedenoe_slovo[j] in bukvi_zagad.keys():
+                bukvi_zagad[vvedenoe_slovo[j]] -= 1
 
         if len(''.join(vvedenoe_slovo)) > 5:
             print(Fore.RED + '         Слишком длинное слово , ты что забыл что длина максимум 5 букв ???????')
@@ -147,11 +159,15 @@ with open('Slova_dlya_Wordle.txt', encoding='utf-8') as s:
                     if vvedenoe_slovo[i] == zagadanoe[i]:
                         print(Fore.BLACK + Back.YELLOW + '[' + vvedenoe_slovo[i].upper() + ']', end=' ')
                         sleep(1)
-                        bukvi_zagad[vvedenoe_slovo[i]]-=1
                     else:
-                        if bukvi_zagad[vvedenoe_slovo[i]]!=0:
-                            print(Fore.BLACK + Back.BLUE + '[' + vvedenoe_slovo[i].upper() + ']', end=' ')
-                            sleep(1)
+                        if vvedenoe_slovo[i] in bukvi_zagad.keys():
+                            if bukvi_zagad[vvedenoe_slovo[i]] > 0:
+                                print(Fore.BLACK + Back.BLUE + '[' + vvedenoe_slovo[i].upper() + ']', end=' ')
+                                sleep(1)
+                            else:
+                                print(Fore.WHITE + Back.LIGHTBLACK_EX + '[' + vvedenoe_slovo[i].upper() + ']', end=' ')
+                                sleep(1)
+
                         else:
                             print(Fore.WHITE + Back.LIGHTBLACK_EX + '[' + vvedenoe_slovo[i].upper() + ']', end=' ')
                             sleep(1)
@@ -162,27 +178,33 @@ with open('Slova_dlya_Wordle.txt', encoding='utf-8') as s:
             print()
             print()
             print(Fore.YELLOW + '                         Как думаешь что это за слово ?')
-            print(Fore.YELLOW + '                        Вот буквы которые вы уже вводили:')
-            print(Fore.LIGHTMAGENTA_EX+'====================================================================================================')
-            for i in range(len(set_bukv)):
-                print(cveta[randint(0, 5)] + '[' + (set_bukv[i]).upper() + ']', end=' ')
+            print(Fore.YELLOW + '         Буквы которые вы уже вводили , подсвечиваются синим цветом:')
+            print(
+                Fore.LIGHTMAGENTA_EX + '====================================================================================================')
+            for i in range(len(slovar_RU)):
+                if slovar_RU[i].lower() in set_bukv:
+                    print(Back.BLUE+Fore.BLACK+'[' + (slovar_RU[i]) + ']', end=' ')
+                else:
+                    print(cveta[randint(1, 5)] +'[' +slovar_RU[i] + ']' , end= ' ')
             print()
-            print(Fore.LIGHTMAGENTA_EX+'====================================================================================================')
+            print()
+            print(
+                Fore.LIGHTMAGENTA_EX + '====================================================================================================')
             print()
             vvedenie_slova.append(vvedenoe_slovo)
             popitki -= 1
     if popitki == 0:
         dis()
         print()
-        print(Fore.RED+'                             К СОЖАЛЕНИЮ ПОПЫТКИ ЗАКОНЧИЛИСЬ')
+        print(Fore.RED + '                             К СОЖАЛЕНИЮ ПОПЫТКИ ЗАКОНЧИЛИСЬ')
         print()
         dis()
         print()
         for i in zagadanoe:
-            print(cveta[randint(1,5)]+'['+i.upper()+']',end=' ')
+            print(cveta[randint(1, 5)] + '[' + i.upper() + ']', end=' ')
             print()
         print()
         dis()
-        print(Fore.YELLOW+'                                    ПОПРОБУЙ ЕЩЕ РАЗ')
+        print(Fore.YELLOW + '                                    ПОПРОБУЙ ЕЩЕ РАЗ')
         print()
         dis()
