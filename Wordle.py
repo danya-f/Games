@@ -20,7 +20,6 @@ with open('Slova_dlya_Wordle.txt', encoding='utf-8') as s:
     for i in s.read().split():
         if i not in slova:
             slova.append(i)
-    print(len(slova))
     sec = 1
     slovar_RU = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
     dis(cveta)
