@@ -103,7 +103,7 @@ with open('Slova_dlya_Wordle.txt', encoding='utf-8') as s:
             sleep(sec)
             continue
         for j in range(len(vvedenoe_slovo)):
-            if vvedenoe_slovo[j] in bukvi_zagad.keys():
+            if vvedenoe_slovo[j] in bukvi_zagad.keys() and vvedenoe_slovo[j] == zagadanoe[j]:
                 bukvi_zagad[vvedenoe_slovo[j]] -= 1
 
         if len(''.join(vvedenoe_slovo)) > 5:
@@ -114,11 +114,19 @@ with open('Slova_dlya_Wordle.txt', encoding='utf-8') as s:
 
         if ''.join(vvedenoe_slovo) not in slova:
             print()
-            dis()
-            print(Fore.RED + '                             ТАКОГО СЛОВА НЕТ В МОЕЙ БАЗЕ СЛОВ')
-            print(Fore.RED + '                                    ВВЕДИ ДРУГОЕ СЛОВО')
-            sleep(sec)
-            continue
+            print(Fore.RED+ 'Такого слова нет в моем словаре ! Если хочешь добавить введи "да"')
+            dobavlenie_slova_v_slovar = input()
+            if dobavlenie_slova_v_slovar == 'да':
+                with open('new_words_for_my_words.txt' , 'a' , encoding='utf-8') as new_slova:
+                    new_slova.write(vvedenoe_slovo+'\n')
+                dis()
+                continue
+            else:
+                dis()
+                print(Fore.RED + '                             ТАКОГО СЛОВА НЕТ В МОЕЙ БАЗЕ СЛОВ')
+                print(Fore.RED + '                                    ВВЕДИ ДРУГОЕ СЛОВО')
+                sleep(sec)
+                continue
         print()
         dis(cveta)
         print()
