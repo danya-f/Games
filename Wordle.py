@@ -117,10 +117,10 @@ with open('Slova_dlya_Wordle.txt', encoding='utf-8') as s:
             print(Fore.RED+ 'Такого слова нет в моем словаре ! Если хочешь добавить введи "да"')
             dobavlenie_slova_v_slovar = input()
             if dobavlenie_slova_v_slovar == 'да':
-                with open('new_words_for_my_words.txt' , 'a' , encoding='utf-8') as new_slova:
-                    new_slova.write(vvedenoe_slovo+'\n')
-                dis()
-                continue
+                    with open('Slova_dlya_Wordle.txt' , 'a' , encoding='utf-8') as new_slova:
+                        new_slova.write(vvedenoe_slovo+'\n')
+                    dis()
+                    continue
             else:
                 dis()
                 print(Fore.RED + '                             ТАКОГО СЛОВА НЕТ В МОЕЙ БАЗЕ СЛОВ')
